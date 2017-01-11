@@ -1,0 +1,204 @@
+\documentclass{sig}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{appendix}
+\usepackage{balance}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{comment}
+\usepackage{epstopdf}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage{multirow}
+\usepackage{pdfpages}
+\usepackage{subcaption}
+\usepackage{subfig}
+\usepackage{tabularx}
+\usepackage{times}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{xspace}
+\usepackage{bm}
+\usepackage{mdwlist}
+
+\newcommand{\subparagraph}{}
+\usepackage{titlesec}
+
+\titlespacing{\section}{0ex}{0.8ex}{0ex}
+\titlespacing{\subsection}{0ex}{0.8ex}{0ex}
+\titlespacing{\subsubsection}{0ex}{0.7ex}{0ex}
+\setlength{\parskip}{0ex}
+
+\algrenewcommand\alglinenumber[1]{\scriptsize #1:}
+
+\makeatletter
+\renewcommand*{\ALG@name}{Investing Rule}
+\makeatother
+
+
+\usepackage{breqn}
+\interfootnotelinepenalty=10000
+
+\newcommand{\todo}[1]{\textcolor{blue}{TODO: #1}}
+\newcommand{\done}[1]{\textcolor{green}{DONE#1}}
+\newcommand{\tim}[1]{\textcolor{red}{Tim: #1}}
+\newcommand{\lore}[1]{\textcolor{blue}{Lorenzo: #1}}
+\newcommand{\ez}[1]{\textcolor{orange}{ez: #1}}
+\newcommand{\sam}[1]{\textcolor{purple}{sam: #1}}
+\newcommand{\carsten}[1]{\textcolor{brown}{Carsten: #1}}
+
+\newcommand{\naive}{na\"{\i}ve\xspace}
+\newcommand{\Naive}{Na\"{\i}ve\xspace}
+\newcommand{\naively}{na\"{\i}vely\xspace}
+
+\newcommand{\ainv}{$\alpha$-investing }
+\newcommand{\sfdr}{Sequential-FDR }
+\newcommand{\mfdre}{$mFDR_{\eta}$ }
+\newcommand{\mfdr}[1]{$mFDR_{#1}$}
+\newcommand{\Ex}[1]{E\left[#1\right]}
+\newcommand{\Prob}[1]{\text{P}\left(#1\right)}
+\newcommand{\CProb}[2]{\text{P}\left(#1|#2\right)}
+\newcommand{\pval}{$p$-value }
+\newcommand{\pvals}{$p$-values }
+
+
+\newcommand{\system}{{\sc Aware}}
+\newcommand{\Chi}{\mathcal{X}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+
+%\setlength\abovedisplayskip{0pt plus 2pt minus 0pt}
+%\setlength\belowdisplayskip{0pt plus 2pt minus 0pt}
+
+%\makeatletter
+%\g@addto@macro \normalsize {%
+%\setlength\abovedisplayskip{0pt plus 2pt minus 0pt}%
+%\setlength\belowdisplayskip{0pt plus 2pt minus 0pt}%
+%\setlength\abovedisplayshortskip{0pt plus 2pt minus 0pt}%
+%\setlength\belowdisplayshortskip{0pt plus 2pt minus 0pt}%
+%}
+%\makeatother
+
+%\makeatletter
+%\g@addto@macro \small {%
+%\setlength\abovedisplayskip{0pt plus 2pt minus 0pt}%
+%\setlength\belowdisplayskip{2pt plus 2pt minus 0pt}%
+%\setlength\abovedisplayshortskip{0pt plus 2pt minus 0pt}%
+%\setlength\belowdisplayshortskip{2pt plus 2pt minus 0pt}%
+%}
+%\makeatother
+
+\DeclareMathOperator*{\argmin}{\arg \min}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+
+\captionsetup{font={bf}}
+
+%\newcommand{\system}{{\sc Vizdom}}
+
+\newcommand{\specialcell}[2][c]{
+  \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\definecolor{dark-gray}{gray}{0.2}
+
+\newenvironment{packed_item}{
+\begin{list}{$\bullet$}{
+  \setlength{\itemsep}{-2pt}
+  \setlength{\parskip}{1pt}
+  \setlength{\labelwidth}{15 pt}
+  \setlength{\leftmargin}{10pt}
+  \setlength{\itemindent}{0pt}}
+}{\end{list}}
+
+% for floated 2 column equations
+\newcounter{tempEquationCounter}
+\newcounter{thisEquationNumber}
+\newenvironment{floatEq}
+{\setcounter{thisEquationNumber}{\value{equation}}\addtocounter{equation}{1}% record equation as happened and remember number
+\begin{figure*}[t]% float following equation across columns
+\normalsize\setcounter{tempEquationCounter}{\value{equation}}% record current equation number in floated location
+\setcounter{equation}{\value{thisEquationNumber}}% use previous equation number
+}
+{\setcounter{equation}{\value{tempEquationCounter}}% set back to equation number in floated location
+\hrulefill\vspace*{4pt}% add a horizontal rule separator
+\end{figure*}% end float environment
+}
+\newtheorem{defi}{Definition}
+\makeatletter
+\newenvironment{subheuristic}[1]{%
+  \def\subtheoremcounter{#1}%
+  \refstepcounter{#1}%
+  \protected@edef\theparentnumber{\csname the#1\endcsname}%
+  \setcounter{parentnumber}{\value{#1}}%
+  \setcounter{#1}{0}%
+  \expandafter\def\csname the#1\endcsname{\theparentnumber\alph{#1}}%
+  \ignorespaces
+}{%
+  \setcounter{\subtheoremcounter}{\value{parentnumber}}%
+  \ignorespacesafterend
+}
+\makeatother
+\newcounter{parentnumber}
+
+\newtheorem{heuristic}{Heuristic}
+
+\begin{document}
+
+
+
+\title{An Interactive Data Exploration Tool that Controls False Discoveries}
+
+\numberofauthors{1}
+\author{
+\alignauthor
+\vspace*{-30pt}
+%Paper \#178
+\begin{tabular}{cccc}
+\end{tabular}\\
+\vspace{1.5mm}
+\affaddr{Department of Computer Science, Brown University}\\
+\vspace{0.75mm}
+\{firstname\_lastname\}@brown.edu
+%\email{\{firstname\_lastname\}@brown.edu}
+}
+
+%\numberofauthors{6}
+%\author{
+%\small{Andrew Crotty, Alex Galakatos, Kayhan Dursun, Tim Kraska, Ugur Cetintemel, Stan Zdonik} \\
+%\small{Department of Computer Science, Brown University} \\
+%\small{\{crottyan, agg, kayhan, kraskat, ugur, sbz\}@cs.brown.edu}
+%}
+\date{}
+\maketitle
+
+\begin{abstract}
+
+\end{abstract}
+
+
+\input{intro.tex}
+
+%\input{requirements.tex}
+
+\input{ui.tex}
+
+\input{system.tex}
+
+\input{concl.tex}
+
+%\section{Acknowledgments}
+%This research is funded in part by the Intel Science and Technology Center for Big Data, the NSF CAREER Award IIS-1453171, the Air Force YIP AWARD FA9550-15-1-0144, NSF IIS-1514491, and gifts from SAP, Oracle, Google, Mellanox, and Amazon.
+
+%\clearpage
+\balance
+\begin{scriptsize}
+\bibliographystyle{abbrv}
+\bibliography{bib}
+\end{scriptsize}
+
+\end{document}
