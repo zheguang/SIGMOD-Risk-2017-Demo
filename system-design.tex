@@ -38,46 +38,16 @@ A key key question becomes, what is the expected number of false discoveries amo
 \centering
 \includegraphics[width=0.48\textwidth]{figures/risk_controller}
 \caption{The \system{} User Interface}
-\label{fig:riskcontroller}	
+\label{fig:ui}	
 \end{figure}
 
-Figure \ref{fig:riskcontroller}	shows the current interface design of \system{} with a risk controller, which incorporates the above ideas, running on a tablet. 
-The user interface features an unbounded 2D canvas where chains of visualizations (such as the one shown in Figure \ref{fig:sb}) can be laid out in a free form fashion. 
-A ``risk-gauge'' on the right-hand side of the display (Figure \ref{fig:riskcontroller} (A)) serves two purposes: 
-%\tim{maybe use a different color for A, B, C in the figure to better highlight them. First I thought A is part of the gauge}
-it gives users a summary of the underlying procedure (e.g., the budget for the false discovery rate set to 5\% with current remaining wealth of 2.5\%; %distribution of the \pvals of all tests as 
-both explained in the next two sections) and it provides access to a scrollable list of all the hypothesis tests (implicit and explicit) that have been execute so far. 
-Each list entry displays details about one test and its results.
-Textual labels describe the null- and alternative-hypothesis and color coded \pvals  indicate if the null-hypothesis was rejected or accepted (green for rejected, red for accepted).  
-Furthermore, it visualizes the distribution of null-hypothesis and alternative hypothesis and shows its difference, included an indication of its color coded effect size (D). 
-%\tim{emanuel, would be good to have a pointer in the figure}
-Tap gestures on a specific item allow users to change things like the default hypothesis or the type of test.  
-Additionally other information such as an estimation of the size of an additional data  $n^{H1}$ that could make the observation significant can be displayed in each item. 
-In the example this information is encoded through a set of small squares (B, C) where each square indicates the amount of data that is in the corresponding distribution. In (B) the five red squares tells us that we need 5x the amount of data from the null-distribution to flip this test form rejected to accepted or conversely in (C) 11.5x the amount of data from the alternative-distribution to rejected this hypothesis. 
-Finally, we allow to mark important hypotheses by tapping the ``star'' icons (E). 
-%\tim{Again a pointer would be good. }
-
-
-
-%\subsection{Overall Control}
-%\label{sec:ui:overall}
-
-%- FDR slider
-%- Current Realization
-
-%\subsection{The Default Hypothesis}
-%\label{sec:ui:default}
-
-
-
-%\subsection{Changing The Default Test}
-%\label{sec:ui:change}
-
-
-%\subsection{Additional Information}
-%\label{sec:ui:additional}
-%- How much more data we need to change the \pval
-%- How much more data from the null-hypothesis do we need to add to flip it again
+\sam{todo: how to let user specify hypotheses; remove (B); hypothesis re-test once data added; past hypothesis lookup/redraw}
+The user interface of \system{} features an unbounded 2D canvas where visualizations can be laid out in a free form fashion (Figure~\ref{fig:ui}). A ``risk-gauge'' on the right-hand side of the display (Figure~\ref{fig:ui} (A)) serves two purposes: 
+\begin{itemize}
+    \item To give user a summary of the control procedure (e.g., the budget for the false discovery rate set to 5\% with current remaining wealth of 2.5\%;
+    \item To provide access to a scrollable list of all the hypotheses that have been explored.
+\end{itemize}
+Each list entry displays details about an observation and its statistical significance.  The text labels describe the null and alternative hypotheses concerning each observation and the corresponding hypothesis tests and \pvals. Each color coded tile indicates whether the observation is statistically significant or insignificant, which corresponds to green or red respectively.  The distributions of null and alternative hypotheses and the color coded effect size are also visualized (D).  To help the user understand the effect of data collection, the sample size estimate for the current significance level is displayed for each hypothesis test assuming the effect size is fixed (C).  For example, the five green squares in (C) indicates approximately five times the current data size with the same effect size would make this observation significant. Finally, important observations can be marked by tapping the ``star'' icons (E).
 
 \subsection{Backend}
 \label{sec:backend}
