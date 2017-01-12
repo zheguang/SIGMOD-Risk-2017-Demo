@@ -1,6 +1,8 @@
-\section{User Interface}
-\label{sec:ui}
+\section{System Design}
+\label{sec:system-design}
 
+\subsection{User Interface}
+\label{sec:ui}
 As argued in the previous section, user feedback is essential in determining, tracking and controlling the right hypothesis during the data exploration process.
 With \system~we created a system that applies our heuristic automatically to all visualizations. We designed \system~'s user interface with a few goals in mind.
 
@@ -74,3 +76,6 @@ Finally, we allow to mark important hypotheses by tapping the ``star'' icons (E)
 %- How much more data we need to change the \pval
 %- How much more data from the null-hypothesis do we need to add to flip it again
 
+\subsection{Backend}
+\label{sec:backend}
+\sam{todo: describe system design choices, such as how to generate null hypotheses given user interactions, how to progressively compute marginalized false discovery rate in parallel, etc.}
