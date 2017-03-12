@@ -1,4 +1,4 @@
-\documentclass{sig}
+\documentclass{sig-alternate-05-2015}
 
 \usepackage{algorithm}
 \usepackage{algpseudocode}
@@ -16,7 +16,7 @@
 \usepackage{multirow}
 \usepackage{pdfpages}
 \usepackage{subcaption}
-\usepackage[caption=false]{subfig}
+\usepackage{subfig}
 \usepackage{tabularx}
 \usepackage{times}
 \usepackage{url}
@@ -28,10 +28,10 @@
 \newcommand{\subparagraph}{}
 \usepackage{titlesec}
 
-%\titlespacing{\section}{0ex}{0.8ex}{0ex}
-%\titlespacing{\subsection}{0ex}{0.8ex}{0ex}
-%\titlespacing{\subsubsection}{0ex}{0.7ex}{0ex}
-%\setlength{\parskip}{0ex}
+\titlespacing{\section}{0ex}{0.8ex}{0ex}
+\titlespacing{\subsection}{0ex}{0.8ex}{0ex}
+\titlespacing{\subsubsection}{0ex}{0.7ex}{0ex}
+\setlength{\parskip}{0ex}
 
 \algrenewcommand\alglinenumber[1]{\scriptsize #1:}
 
@@ -43,13 +43,14 @@
 \usepackage{breqn}
 \interfootnotelinepenalty=10000
 
-\newcommand{\todo}[1]{\textcolor{blue}{TODO: #1}}
+\newcommand{\todo}[1]{\textcolor{red}{TODO: #1}}
 \newcommand{\done}[1]{\textcolor{green}{DONE#1}}
 \newcommand{\tim}[1]{\textcolor{red}{Tim: #1}}
-\newcommand{\lore}[1]{\textcolor{blue}{Lorenzo: #1}}
+\newcommand{\lore}[1]{\textcolor{red}{Lorenzo: #1}}
 \newcommand{\ez}[1]{\textcolor{orange}{ez: #1}}
 \newcommand{\sam}[1]{\textcolor{purple}{sam: #1}}
 \newcommand{\carsten}[1]{\textcolor{brown}{Carsten: #1}}
+\newcommand{\eli}[1]{\textcolor{red}{Eli: #1}}
 
 \newcommand{\naive}{na\"{\i}ve\xspace}
 \newcommand{\Naive}{Na\"{\i}ve\xspace}
@@ -66,8 +67,10 @@
 \newcommand{\pvals}{$p$-values }
 
 
-\newcommand{\system}{{\sc Aware}}
+\newcommand{\system}{{\sc Qude}}
 \newcommand{\Chi}{\mathcal{X}}
+
+\newenvironment{highlight}{ \color{blue} }{ }
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
@@ -99,21 +102,8 @@
 
 \captionsetup{font={bf}}
 
-%\newcommand{\system}{{\sc Vizdom}}
-
 \newcommand{\specialcell}[2][c]{
   \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
-
-\definecolor{dark-gray}{gray}{0.2}
-
-\newenvironment{packed_item}{
-\begin{list}{$\bullet$}{
-  \setlength{\itemsep}{-2pt}
-  \setlength{\parskip}{1pt}
-  \setlength{\labelwidth}{15 pt}
-  \setlength{\leftmargin}{10pt}
-  \setlength{\itemindent}{0pt}}
-}{\end{list}}
 
 % for floated 2 column equations
 \newcounter{tempEquationCounter}
@@ -146,10 +136,19 @@
 \newcounter{parentnumber}
 
 \newtheorem{heuristic}{Heuristic}
+\setcounter{section}{0}
 
 \begin{document}
 
-\title{Aware: Safe Visual Data Exploration}
+\setcopyright{acmlicensed}
+\conferenceinfo{SIGMOD'17,}{May 14 - 19, 2017, Chicago, IL, USA}
+\isbn{978-1-4503-4197-4/17/05}\acmPrice{\$15.00}
+\doi{http://dx.doi.org/10.1145/3035918.3058749}
+
+\clubpenalty=10000 
+\widowpenalty = 10000
+
+\title{Safe Visual Data Exploration}
 
 \numberofauthors{1}
 \author{
@@ -157,6 +156,8 @@
 %\vspace*{-30pt}
 %Paper \#178
 \begin{tabular}{cccc}
+Zheguang Zhao & Emanuel Zgraggen & Lorenzo De Stefani & Carsten Binnig  \\
+ & Eli Upfal & Tim Kraska\\
 \end{tabular}\\
 %\vspace{1.5mm}
 \affaddr{Department of Computer Science, Brown University}\\
@@ -164,21 +165,24 @@
 \{firstname\_lastname\}@brown.edu
 %\email{\{firstname\_lastname\}@brown.edu}
 }
-
-%\numberofauthors{6}
-%\author{
-%\small{Andrew Crotty, Alex Galakatos, Kayhan Dursun, Tim Kraska, Ugur Cetintemel, Stan Zdonik} \\
-%\small{Department of Computer Science, Brown University} \\
-%\small{\{crottyan, agg, kayhan, kraskat, ugur, sbz\}@cs.brown.edu}
-%}
 \date{}
 \maketitle
 
 \begin{abstract}
-Exploring data via visualizations has become a popular way to understand complex data. Observations derived from the visual results are inherently hypotheses, and thus visually significant information may not carry any statistical significance. Moreover, visual data exploration and recommendation produce observations dynamically, and so result in increasing numbers of false discoveries.  The risk of false discoveries, if not controlled theoretically and systematically, renders visual data exploration unsustainable. To address this problem, we present our solution based on Vizdom~\cite{vizdom}, namely, \system{}, a visual data exploration system that interacts with user to formulate visualization-based hypotheses and provides interactive control of false discoveries based on the recent advance in the subject~\cite{zhao2016controlling}.
+Exploring data via visualization has become a popular way to understand complex data. 
+Features or patterns in visualization can be perceived as relevant insights by users, even though they may actually arise from random noise. 
+Moreover, interactive data exploration and visualization recommendation tools can examine a large number of observations, and therefore result in further increasing chance of spurious insights.  
+Thus without proper statistical control, the risk of false discovery renders visual data exploration unsafe and makes users susceptible to questionable inference.
+To address these problems, we present \system{}, a visual data exploration system that interacts with users to formulate hypotheses based on visualizations and provides interactive control of false discoveries.
+%based on the recent advance in the subject~\cite{zhao2016controlling}.
+%Observations derived from the visual results are inherently hypotheses, and thus visually significant information may not carry any statistical significance.
+
+
 \end{abstract}
 
 \input{intro.tex}
+
+\input{theory.tex}
 
 \input{design.tex}
 
@@ -186,14 +190,16 @@ Exploring data via visualizations has become a popular way to understand complex
 
 \input{conclusion.tex}
 
-%\section{Acknowledgments}
-%This research is funded in part by the Intel Science and Technology Center for Big Data, the NSF CAREER Award IIS-1453171, the Air Force YIP AWARD FA9550-15-1-0144, NSF IIS-1514491, and gifts from SAP, Oracle, Google, Mellanox, and Amazon.
+\section{Acknowledgments}
+This research is funded in part by the Intel Science and Technology Center for Big Data, DARPA Award 16-43-D3M-FP-040, NSF CAREER Award IIS-1453171, NSF Award IIS-1514491, NSF Award IIS-1562657, Air Force YIP AWARD FA9550-15-1-0144, and gifts from Google, VMware, Mellanox, and Oracle.
 
 %\clearpage
-%\balance
-\begin{scriptsize}
+\balance
+%\begin{scriptsize}
 \bibliographystyle{abbrv}
 \bibliography{bib}
-\end{scriptsize}
+%\end{scriptsize}
+
+%\input{appendix.tex}
 
 \end{document}
